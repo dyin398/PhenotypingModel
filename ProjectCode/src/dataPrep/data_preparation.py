@@ -2,7 +2,8 @@ import os
 from os import path
 import pandas as pd
 import numpy as np
-from .tableExtractors.patients_extractor import PatientsExtractor
+from dataPrep.tableExtractors.patients_extractor import PatientsExtractor
+from dataPrep.tableExtractors.supplies_extractor import SuppliesExtractor
 
 # Class which cleans data in inputData folder and outputs clean data
 # formatted and ready to be input into a classifier
@@ -29,8 +30,9 @@ class DataWrangler:
             if filename.endswith(".csv"):
                 filepath = self.data_folder_path + "/" + filename
                 data = pd.read_csv(filepath)
-                new_features, feature_names = self.prepareData(data, filename)
-                self.addNewData(new_features, feature_names)
+                new_features, feature_names, impute_values = self.prepareData(data, filename)
+                self.addNewData(new_features, feature_names, impute_values)
+        print(self.patients)
         return self.getDataAsArrays()
         
     # Method to set patient_outcomes to 1 for patients who have COVID
@@ -63,46 +65,44 @@ class DataWrangler:
                 outcomes.append(self.patient_outcomes[key])
         return features_list, outcomes
 
-    #TODO: function that adds new features to fields
-    def addNewData(self, new_features, feature_names):
-        return
+    # function that adds new features to fields
+    def addNewData(self, new_features, names, impute_values):
+        self.addFeaturesToPatients(new_features, impute_values)
+        self.addNamesToFeatures(names)
+
+    def addFeaturesToPatients(self, new_features, impute_values):
+        for key in self.patients:
+            if key in new_features:
+                self.patients[key] = self.patients[key] + new_features[key]
+            else:
+                self.patients[key] = self.patients[key] + impute_values
+    
+    def addNamesToFeatures(self, names):
+        self.feature_names = self.feature_names + names
     
     # create objects to prepare data for each table. if we decide the table has no
     # relevance, then ignore it TODO: choose appropriate features
     def prepareData(self, data, filename):
-        new_features = []
+        new_features = {}
         feature_names = []
+        impute_values = []
         extractor = None
-        if filename == "careplans.csv":#TODO
-            pass
-        elif filename == "medications.csv":#TODO
-            pass
-        elif filename == "providers.csv":#TODO
-            pass
-        elif filename == "payer_transitions.csv":#TODO
-            pass
-        elif filename == "imaging_studies.csv":#TODO
+        if filename == "medications.csv":#TODO
             pass
         elif filename == "supplies.csv":#TODO
-            pass
-        elif filename == "payers.csv":#TODO
-            pass
+            extractor = SuppliesExtractor(data, self.patient_outcomes)
         elif filename == "procedures.csv":#TODO
             pass
-        elif filename == "organizations.csv":#TODO
-            pass
         elif filename == "conditions.csv":#TODO
-            pass
-        elif filename == "encounters.csv":#TODO
             pass
         elif filename == "devices.csv":#TODO
             pass
         elif filename == "immunizations.csv":#TODO
             pass
-        elif filename == "patients.csv":#TODO
+        elif filename == "patients.csv":
             extractor = PatientsExtractor(data, self.patient_outcomes)
         elif filename == "observations.csv":#TODO
             pass
         if extractor != None:
-            new_features, feature_names = extractor.extractFeatures()
-        return new_features, feature_names
+            [new_features, feature_names], impute_values = extractor.extractFeatures()
+        return new_features, feature_names, impute_values
