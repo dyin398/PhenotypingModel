@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np
 from dataPrep.tableExtractors.patients_extractor import PatientsExtractor
 from dataPrep.tableExtractors.supplies_extractor import SuppliesExtractor
+from dataPrep.tableExtractors.observations_extractor import ObservationsExtractor
+from dataPrep.tableExtractors.procedures_extractor import ProceduresExtractor
 
 # Class which cleans data in inputData folder and outputs clean data
 # formatted and ready to be input into a classifier
@@ -32,7 +34,6 @@ class DataWrangler:
                 data = pd.read_csv(filepath)
                 new_features, feature_names, impute_values = self.prepareData(data, filename)
                 self.addNewData(new_features, feature_names, impute_values)
-        print(self.patients)
         return self.getDataAsArrays()
         
     # Method to set patient_outcomes to 1 for patients who have COVID
@@ -78,7 +79,9 @@ class DataWrangler:
                 self.patients[key] = self.patients[key] + impute_values
     
     def addNamesToFeatures(self, names):
-        self.feature_names = self.feature_names + names
+        for i in names:
+            if i != 'PATIENT':
+                self.feature_names.append(i)
     
     # create objects to prepare data for each table. if we decide the table has no
     # relevance, then ignore it TODO: choose appropriate features
@@ -92,7 +95,7 @@ class DataWrangler:
         elif filename == "supplies.csv":#TODO
             extractor = SuppliesExtractor(data, self.patient_outcomes)
         elif filename == "procedures.csv":#TODO
-            pass
+            extractor = ProceduresExtractor(data, self.patient_outcomes)
         elif filename == "conditions.csv":#TODO
             pass
         elif filename == "devices.csv":#TODO
@@ -102,7 +105,7 @@ class DataWrangler:
         elif filename == "patients.csv":
             extractor = PatientsExtractor(data, self.patient_outcomes)
         elif filename == "observations.csv":#TODO
-            pass
+            extractor = ObservationsExtractor(data, self.patient_outcomes)
         if extractor != None:
             [new_features, feature_names], impute_values = extractor.extractFeatures()
         return new_features, feature_names, impute_values

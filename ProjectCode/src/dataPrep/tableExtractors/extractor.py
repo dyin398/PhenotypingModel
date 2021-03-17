@@ -39,8 +39,7 @@ class Extractor(ABC):
     # and a list of feature names
     def dataFrameToDict(self, data):
         patients = data['PATIENT']
-        data.drop(['PATIENT'], axis=1, inplace=True)
-        features = data
+        features = data.drop(['PATIENT'], axis=1)
         patientsList = patients.values.tolist()
         featuresList = features.values.tolist()
         featuresDict = {}
