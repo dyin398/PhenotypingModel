@@ -2,6 +2,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.feature_selection import f_classif
 from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2
 from scipy import stats
 
 # Function takes in data excluding target values and uses sklearn function
@@ -29,3 +30,4 @@ def ANOVA(data, target, kBest):
     selector = SelectKBest(f_classif, k=kBest)
     output_features = selector.fit_transform(data, target)
     return output_features
+

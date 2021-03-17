@@ -3,6 +3,7 @@ from utils.data_prep_methods import PCAalgorithm, standardiseData
 from datetime import datetime
 import pandas as pd
 import statistics
+pd.options.mode.chained_assignment = None
 
 # Extractor for the patient's .csv
 class PatientsExtractor(Extractor):

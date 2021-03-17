@@ -6,6 +6,8 @@ from dataPrep.tableExtractors.patients_extractor import PatientsExtractor
 from dataPrep.tableExtractors.supplies_extractor import SuppliesExtractor
 from dataPrep.tableExtractors.observations_extractor import ObservationsExtractor
 from dataPrep.tableExtractors.procedures_extractor import ProceduresExtractor
+from dataPrep.tableExtractors.conditions_extractor import ConditionsExtractor
+pd.options.mode.chained_assignment = None
 
 # Class which cleans data in inputData folder and outputs clean data
 # formatted and ready to be input into a classifier
@@ -80,7 +82,7 @@ class DataWrangler:
     
     def addNamesToFeatures(self, names):
         for i in names:
-            if i != 'PATIENT':
+            if i != 'PATIENT' and i != 'Outcome':
                 self.feature_names.append(i)
     
     # create objects to prepare data for each table. if we decide the table has no
@@ -90,21 +92,21 @@ class DataWrangler:
         feature_names = []
         impute_values = []
         extractor = None
-        if filename == "medications.csv":#TODO
+        if filename == "medications.csv":#TODO: see how it goes
             pass
-        elif filename == "supplies.csv":#TODO
+        elif filename == "supplies.csv":
             extractor = SuppliesExtractor(data, self.patient_outcomes)
-        elif filename == "procedures.csv":#TODO
+        elif filename == "procedures.csv":
             extractor = ProceduresExtractor(data, self.patient_outcomes)
-        elif filename == "conditions.csv":#TODO
+        elif filename == "conditions.csv":
+            extractor = ConditionsExtractor(data, self.patient_outcomes)
+        elif filename == "devices.csv":#TODO: see how it goes
             pass
-        elif filename == "devices.csv":#TODO
-            pass
-        elif filename == "immunizations.csv":#TODO
+        elif filename == "immunizations.csv":#TODO: see how it goes
             pass
         elif filename == "patients.csv":
             extractor = PatientsExtractor(data, self.patient_outcomes)
-        elif filename == "observations.csv":#TODO
+        elif filename == "observations.csv":
             extractor = ObservationsExtractor(data, self.patient_outcomes)
         if extractor != None:
             [new_features, feature_names], impute_values = extractor.extractFeatures()
