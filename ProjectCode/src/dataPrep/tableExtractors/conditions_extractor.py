@@ -39,6 +39,7 @@ class ConditionsExtractor(Extractor):
         self.data = self.data[['PATIENT', 'Outcome']]
         self.data = pd.concat([self.data, output], axis=1)
         self.data.rename(columns={0 : 'conditions1', 1 : 'conditions2', 2 : 'conditions3'}, inplace=True)
+        self.data = self.data.drop('Outcome', axis=1)
 
     # Returns dictionary of all patients to empty set
     def getEmptyFeatureDict(self):
