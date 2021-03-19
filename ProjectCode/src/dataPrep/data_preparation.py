@@ -21,7 +21,7 @@ class DataWrangler:
         # map of patients to their outcomes
         self.patient_outcomes = {}
 
-        self.data_folder_path = "../resources/inputData"
+        self.data_folder_path = "resources/inputData"
 
     # Method to iterate through inputData and calls necessary functions to clean data
     # and returns output data
