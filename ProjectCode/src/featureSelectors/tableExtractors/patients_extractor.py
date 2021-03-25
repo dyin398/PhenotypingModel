@@ -1,5 +1,5 @@
-from dataPrep.tableExtractors.extractor import Extractor
-from utils.data_prep_methods import PCAalgorithm, standardiseData
+from featureSelectors.tableExtractors.extractor import Extractor
+from utils.extractor_methods import PCAalgorithm, standardiseData
 from datetime import datetime
 import pandas as pd
 import statistics

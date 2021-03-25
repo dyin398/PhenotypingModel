@@ -1,4 +1,3 @@
-import abc
 from abc import ABC, abstractmethod
 
 # Abstract class containing potential methods for data preparation. Includes
@@ -10,28 +9,31 @@ class Extractor(ABC):
         pass
 
     # Abstract method to extract data with relevance to outcomes
+    @abstractmethod
     def extractFeatures(self):
         pass
 
     # Abstract method to manually assess the importance of each feature 
     # and remove the unecessary features
+    @abstractmethod
     def manuallyRemoveFeatures(self):
         pass
     
-    # Abstract method to clean data selected for parsing
+    # Suggested method to clean data selected for parsing
     def cleanData(self):
         pass
 
     # Abstract method to transform data into something that can be computed
+    @abstractmethod
     def transformData(self):
         pass
 
-    # Abstract method to use different preparation methods to 
+    # Suggested method to use different preparation methods to
     # optimise remaining data values.
     def featureSelection(self):
         pass
 
-    # Abstract method which returns data for main to impute if values are missing
+    # Suggested method which returns data for main to impute if values are missing
     def returnImputeData(self):
         pass
 

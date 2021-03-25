@@ -1,5 +1,5 @@
-from dataPrep.tableExtractors.extractor import Extractor
-from utils.data_prep_methods import kendallTau, standardiseData, PCAalgorithm
+from featureSelectors.tableExtractors.extractor import Extractor
+from utils.extractor_methods import kendallTau, standardiseData, PCAalgorithm
 import pandas as pd
 import statistics
 pd.options.mode.chained_assignment = None
