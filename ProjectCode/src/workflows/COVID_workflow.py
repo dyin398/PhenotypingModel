@@ -6,10 +6,10 @@ from analysers.analyser_factory import createAnalyser
 class COVID_Workflow(ClassificationWorkflow):
 
     def createFeatureSelector(self):
-        self.featureSelector = FeatureSelector(self.tables)
+        self.featureSelector = FeatureSelector(["supplies.csv", "procedures.csv", "conditions.csv", "patients.csv", "observations.csv"])
 
     def createMLClassifier(self):
-        self.mlClassifier = createClassifier(self.classifier)
+        self.mlClassifier = createClassifier("resources/outputData/trainedClassifier.sav")
 
     def createAnalyser(self):
-        self.analyser = createAnalyser(self.analyser_name)
+        self.analyser = createAnalyser("COVID")

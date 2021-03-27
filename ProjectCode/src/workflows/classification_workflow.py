@@ -1,11 +1,8 @@
 from abc import ABC, abstractmethod
 
 class ClassificationWorkflow(ABC):
-    def __init__(self, tables, classifier, analyser):
+    def __init__(self):
         # Create fields for class including inputs and empty workflow objects
-        self.tables = tables
-        self.classifier = classifier
-        self.analyser_name = analyser
         self.featureSelector = None
         self.mlClassifier = None
         self.analyser = None
