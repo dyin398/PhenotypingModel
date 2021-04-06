@@ -4,7 +4,7 @@ import pandas as pd
 import statistics
 pd.options.mode.chained_assignment = None
 
-# Extractor for the patient's .csv
+# Extractor for the conditions.csv
 class ConditionsExtractor(Extractor):
 
     def __init__(self, data, outcomes):
@@ -18,18 +18,21 @@ class ConditionsExtractor(Extractor):
         self.featureSelection()
         return super().dataFrameToDict(self.data), self.returnImputeData()
 
+    # Removes all features except patient and codes and removes rows with unnecessary codes
     def manuallyRemoveFeatures(self):
         features_to_keep = ['PATIENT', 'CODE']
         self.data = self.data[features_to_keep]
         self.data = self.data[self.data.CODE != 840539006]
         self.data = self.data[self.data.CODE != 840544004]
 
+    # Manipulate the data to get the correct format
     def transformData(self):
         feature_dict = self.getEmptyFeatureDict()
         feature_dict = self.populateFeatureDict(feature_dict)
         feature_array_dict = self.getFeatureArrayDict(feature_dict)
         self.alterData(feature_array_dict)
 
+    # Uses PCA algorithm to reduce the dimentionality to 3 columns
     def featureSelection(self):
         newData = self.data
         input = newData.drop(['PATIENT', 'Outcome'], axis=1)
@@ -69,6 +72,7 @@ class ConditionsExtractor(Extractor):
             feature_array_dict[i] = arr
         return feature_array_dict
 
+    # Data manipulation helper method
     def alterData(self, feature_array_dict):
         newDict = {}
         newDict['PATIENT'] = []
@@ -82,6 +86,7 @@ class ConditionsExtractor(Extractor):
                 newDict[self.codes[i]].append(feature_array_dict[key][i])
         self.data = pd.DataFrame(newDict)
 
+    # Returns the medians of each condition
     def returnImputeData(self):
         columns = ['conditions1', 'conditions2', 'conditions3']
         imputeData = []

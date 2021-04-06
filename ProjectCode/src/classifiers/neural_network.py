@@ -1,6 +1,7 @@
 from classifiers.classifier import Classifier
 from utils.classifiers import minMaxScaler, neuralNetwork, predict
 
+# Neural network classifier class
 class NeuralNetwork(Classifier):
 
     def scaleData(self):

@@ -2,6 +2,7 @@ from classifiers.classifier import Classifier
 from utils.classifiers import predict, minMaxScaler
 import pickle
 
+# Takes a classifier path and deserialises the classifier using Pickle. Then runs the model on the data
 class LoadedClassifier(Classifier):
     def __init__(self, classifier_path):
         super(LoadedClassifier, self).__init__()

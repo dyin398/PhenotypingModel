@@ -1,6 +1,7 @@
 from classifiers.classifier import Classifier
 from utils.classifiers import minMaxScaler, decisionTree, predict
 
+# Decision Tree classifier class
 class DecisionTree(Classifier):
 
     def scaleData(self):

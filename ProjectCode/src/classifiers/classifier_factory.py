@@ -3,6 +3,7 @@ from classifiers.decision_tree import DecisionTree
 from classifiers.neural_network import NeuralNetwork
 from classifiers.loaded_classifier import LoadedClassifier
 
+# Factory for classifiers. Will return specified classifier
 def createClassifier(name):
     classifier = None
     if name == "Logistic Regression":

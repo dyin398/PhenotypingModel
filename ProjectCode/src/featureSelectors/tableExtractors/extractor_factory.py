@@ -4,6 +4,7 @@ from featureSelectors.tableExtractors.observations_extractor import Observations
 from featureSelectors.tableExtractors.procedures_extractor import ProceduresExtractor
 from featureSelectors.tableExtractors.conditions_extractor import ConditionsExtractor
 
+# Factory for data extractors. Returns specific extractor for specific file
 def createExtractor(filename, data, outcomes):
     extractor = None
     if filename == "supplies.csv":

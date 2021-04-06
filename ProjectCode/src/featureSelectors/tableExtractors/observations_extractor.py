@@ -2,7 +2,7 @@ from featureSelectors.tableExtractors.extractor import Extractor
 import pandas as pd
 pd.options.mode.chained_assignment = None
 
-# Extractor for the patient's .csv
+# Extractor for the observations.csv
 class ObservationsExtractor(Extractor):
 
     def __init__(self, data, outcomes):
@@ -15,10 +15,12 @@ class ObservationsExtractor(Extractor):
         self.transformData()
         return super().dataFrameToDict(self.data), self.returnImputeData()
 
+    # Keep only the patient, code and value
     def manuallyRemoveFeatures(self):
         features_to_keep = ['PATIENT', 'CODE', 'VALUE']
         self.data = self.data[features_to_keep]
 
+    # Transforms data into columns with booleans defining presence of keepCodes
     def transformData(self):
         feature_dict = {}
         keepCodesSet = {'8310-5', '9279-1', '8867-4', '2708-6', '8462-4', '8480-6', '29463-7'}
@@ -31,6 +33,7 @@ class ObservationsExtractor(Extractor):
         formattedValues = self.formatValues(feature_dict)
         self.data = self.valuesToDataFrame(formattedValues)
 
+    # Helper method to format the data
     def formatValues(self, dict):
         feature_dict = {}
         averageValues = [37.2, 16, 80, 95, 70, 105, 62]
@@ -45,6 +48,7 @@ class ObservationsExtractor(Extractor):
             feature_dict[key] = arr
         return feature_dict
 
+    # Returns the formatted values as a dataframe for returning
     def valuesToDataFrame(self, formattedValues):
         newdict = {'PATIENT' : [], '8310-5' : [], '9279-1' : [], '8867-4' : [], '2708-6' : [], '8462-4' : [], '8480-6' : [], '29463-7' : []}
         for key in formattedValues:
@@ -59,5 +63,6 @@ class ObservationsExtractor(Extractor):
             newdict['29463-7'].append(data[6])
         return pd.DataFrame(newdict)
 
+    # Data for an average human for each code
     def returnImputeData(self):
         return [37.2, 16, 80, 95, 70, 105, 62]

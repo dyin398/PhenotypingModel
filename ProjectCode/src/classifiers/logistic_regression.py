@@ -2,6 +2,7 @@ from classifiers.classifier import Classifier
 from utils.classifiers import minMaxScaler, logisticRegression, predict
 import pickle
 
+# Logistic Regression classifier class
 class LogisticRegression(Classifier):
 
     def scaleData(self):

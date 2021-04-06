@@ -2,7 +2,7 @@ from featureSelectors.tableExtractors.extractor import Extractor
 import pandas as pd
 pd.options.mode.chained_assignment = None
 
-# Extractor for the patient's .csv
+# Extractor for the procedures.csv
 class ProceduresExtractor(Extractor):
 
     def __init__(self, data, outcomes):
@@ -14,10 +14,12 @@ class ProceduresExtractor(Extractor):
         self.transformData()
         return super().dataFrameToDict(self.data), self.returnImputeData()
 
+    # only keep a list of patients
     def manuallyRemoveFeatures(self):
         features_to_keep = ['PATIENT']
         self.data = self.data[features_to_keep]
 
+    # If patient is in table then HADPROCEDURE = 1 else 0
     def transformData(self):
         patients = self.data['PATIENT'].tolist()
         patientset = set()
@@ -32,5 +34,6 @@ class ProceduresExtractor(Extractor):
                 output_dict['HADPROCEDURE'].append(0)
         self.data = pd.DataFrame(output_dict)
 
+    # Return 0 if not in table
     def returnImputeData(self):
         return [0]

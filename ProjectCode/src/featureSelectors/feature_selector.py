@@ -94,6 +94,7 @@ class FeatureSelector():
             [new_features, feature_names], impute_values = extractor.extractFeatures()
         return new_features, feature_names, impute_values
 
+    # prints data as a .csv file in outputs
     def printData(self):
         self.removeOutputFile()
         csv_output = ["PATIENT"] + self.feature_names  + ["Outcome"]
